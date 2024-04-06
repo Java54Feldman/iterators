@@ -1,11 +1,13 @@
 package telran.numbers;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Range implements Iterable<Integer> {
-	private int min;
-	private int max;
-	private Range(int min, int max) {
+	protected static final String ERROR_MSG = "max less or equal min";
+	protected int min;
+	protected int max;
+	protected Range(int min, int max) {
 		this.min = min;
 		this.max = max;
 	};
@@ -14,10 +16,13 @@ public class Range implements Iterable<Integer> {
 		return new RangeIterator();
 	}
 	public static Range getRange(int min, int max) {
-		if (max <= min) {
-			throw new IllegalArgumentException("max less or equal min");
-		}
+		checkMinMax(min, max);
 		return new Range(min, max);
+	}
+	protected static void checkMinMax(int min, int max) {
+		if (max <= min) {
+			throw new IllegalArgumentException(ERROR_MSG);
+		}
 	}
 
 	//inner class
@@ -31,6 +36,9 @@ public class Range implements Iterable<Integer> {
 
 		@Override
 		public Integer next() {
+			if(!hasNext()) { // эта проверка обязательна
+				throw new NoSuchElementException();
+			}
 			return current++;
 		}
 		
