@@ -32,5 +32,5 @@ class RangePredicateTest extends RangeTest{
 		Iterator<Integer> it = rangePredicate.iterator();
 		assertThrowsExactly(NoSuchElementException.class, () -> it.next());
 	}
-
+	
 }

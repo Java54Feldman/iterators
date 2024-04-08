@@ -27,14 +27,19 @@ public class RangePredicate extends Range {
 	}
 
 	private class RangePredicateIterator implements Iterator<Integer> {
-		int current = min;
+		long current = (long)min - 1;
+		//оператор кастинг (long). тип переменной поменять нельзя
+		//long current = min - 1l; same
+		RangePredicateIterator() {
+			if(predicate == null) {
+				predicate = x -> true;
+			}
+			setCurrent();
+		}
 
 		@Override
 		public boolean hasNext() {
-			boolean res = false;
-			int value = current;
-			while(value <= max && !(res = predicate.test(value++)));
-			return res;
+			return current <= max;
 		}
 
 		@Override
@@ -42,8 +47,15 @@ public class RangePredicate extends Range {
 			while (!hasNext()) {
 				throw new NoSuchElementException();
 			}
-			while(!predicate.test(current++));
-			return current - 1;
+			int result = (int)current;
+			setCurrent();
+			return result;
+		}
+		private void setCurrent() {
+			current++;
+			while(current <= max && !predicate.test((int) current)) {
+				current++;
+			}
 		}
 		
 	}
