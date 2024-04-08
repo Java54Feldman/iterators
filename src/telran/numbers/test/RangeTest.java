@@ -16,7 +16,7 @@ class RangeTest {
 	void IterableIteratorTest() {
 		Integer[] expected = {5, 6, 7, 8, 9, 10};
 		Integer[] actual = new Integer[expected.length];
-		assertArrayEquals(expected, toArrayFromIterable(new Integer[6], range));
+		assertArrayEquals(expected, toArrayFromIterable(actual, range));
 	}
 	@Test
 	void iteratorIncorrectUsageTest() {

@@ -1,10 +1,12 @@
 package telran.numbers;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 public class RangePredicate extends Range {
-	private Predicate<Integer> predicate;
+	private Predicate<Integer> predicate = num -> true;
+//	лямбда-выражение num -> true означает, что для любого переданного значения num будет возвращено true
 
 	protected RangePredicate(int min, int max) {
 		super(min, max);
@@ -25,18 +27,24 @@ public class RangePredicate extends Range {
 	}
 
 	private class RangePredicateIterator implements Iterator<Integer> {
-		// TODO
+		int current = min;
+
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
+			boolean res = false;
+			int value = current;
+			while(value <= max && !(res = predicate.test(value++)));
+			return res;
 		}
 
 		@Override
 		public Integer next() {
-			// TODO Auto-generated method stub
-			return null;
+			while (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			while(!predicate.test(current++));
+			return current - 1;
 		}
-
+		
 	}
 }

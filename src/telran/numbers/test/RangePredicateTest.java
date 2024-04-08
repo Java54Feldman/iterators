@@ -14,7 +14,7 @@ class RangePredicateTest extends RangeTest{
 
 	@Test
 	void iterableIteratorTest() {
-		Range range = RangePredicate.getRange(10, 15);
+		RangePredicate range = RangePredicate.getRange(10, 15);
 		Integer[] rangeExpected = {10, 11, 12, 13, 14, 15};
 		assertArrayEquals(rangeExpected, toArrayFromIterable(new Integer[rangeExpected.length], range));
 		RangePredicate rangeEvenOdd = RangePredicate.getRange(1, 7);
